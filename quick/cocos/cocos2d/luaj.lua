@@ -1,8 +1,6 @@
 
 local luaj = {}
 
-local callJavaStaticMethod = LuaJavaBridge.callStaticMethod
-
 local function checkArguments(args, sig)
     if type(args) ~= "table" then args = {} end
     if sig then return args, sig end
@@ -28,7 +26,7 @@ end
 function luaj.callStaticMethod(className, methodName, args, sig)
     local args, sig = checkArguments(args, sig)
     --echoInfo("luaj.callStaticMethod(\"%s\",\n\t\"%s\",\n\targs,\n\t\"%s\"", className, methodName, sig)
-    return callJavaStaticMethod(className, methodName, args, sig)
+    return LuaJavaBridge.callStaticMethod(className, methodName, args, sig)
 end
 
 return luaj

@@ -59,6 +59,9 @@ device.platform    = "unknown"
 device.model       = "unknown"
 
 local sharedApplication = cc.Application:getInstance()
+-- sharedApplication.getTargetPlatform = function() -- debug
+--     return cc.PLATFORM_OS_IPAD
+-- end
 local target = sharedApplication:getTargetPlatform()
 if target == cc.PLATFORM_OS_WINDOWS then
     device.platform = "windows"
@@ -66,6 +69,20 @@ elseif target == cc.PLATFORM_OS_MAC then
     device.platform = "mac"
 elseif target == cc.PLATFORM_OS_ANDROID then
     device.platform = "android"
+
+    -- 根据屏幕宽高比，判断是否是androidpad
+    local _size = cc.Director:getInstance():getOpenGLView():getFrameSize()
+
+    if(CONFIG_SCREEN_ORIENTATION == 1 or CONFIG_SCREEN_ORIENTATION == "landscape") then -- 横屏
+        if(_size.width / _size.height < 1.5) then
+            device.model = "androidpad"
+        end
+    else -- 竖屏
+        if(_size.height / _size.width < 1.5) then
+            device.model = "androidpad"
+        end
+    end
+
 elseif target == cc.PLATFORM_OS_IPHONE or target == cc.PLATFORM_OS_IPAD then
     device.platform = "ios"
     if target == cc.PLATFORM_OS_IPHONE then
@@ -285,8 +302,8 @@ end
 --------------------------------
 -- 用浏览器打开指定的网址
 -- @function [parent=#device] openURL
--- @mycompany 
--- @mycompany 
+-- @mycompany
+-- @mycompany
 -- @param string 网址，邮件，拨号等的字符串
 
 --[[--

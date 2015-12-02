@@ -94,8 +94,16 @@ end
 if not CONFIG_SCREEN_AUTOSCALE then
     if w > h then
         CONFIG_SCREEN_AUTOSCALE = "FIXED_HEIGHT"
+
+        if(device.model == "ipad" or device.model == "androidpad") then
+            CONFIG_SCREEN_AUTOSCALE = "FIXED_WIDTH"
+        end
     else
         CONFIG_SCREEN_AUTOSCALE = "FIXED_WIDTH"
+
+        if(device.model == "ipad" or device.model == "androidpad") then
+            CONFIG_SCREEN_AUTOSCALE = "FIXED_HEIGHT"
+        end
     end
 else
     CONFIG_SCREEN_AUTOSCALE = string.upper(CONFIG_SCREEN_AUTOSCALE)
